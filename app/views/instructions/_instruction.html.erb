@@ -1,0 +1,13 @@
+<article class="instruction">
+	<section class="instruction-head">
+		<h2><%= link_to instruction.title, instruction_path(instruction) %></h2>
+		<small>
+			<time><%= instruction.created_at.to_date.strftime("%d %B, %Y") %></time>
+			|
+			<%= raw instruction.tags.map(&:name).map{|t| link_to t, tag_path(t)}.join(' / ') %>
+		</small>
+	</section>
+	<section class="instruction-summary">
+		<%= instruction.body.html_safe %>
+	</section>
+</article>

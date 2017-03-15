@@ -1,0 +1,9 @@
+<div class="submenu">
+	<ul class="nav flex-column">
+		<% Category.all.each do |category| %>
+			<li class="nav-item">
+				<%= link_to category.name, category, class: "nav-link #{'active' if current_page?(category_path(category))}" %>
+			</li>
+		<% end %>
+	</ul>
+</div>

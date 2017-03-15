@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>App</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav id="mainNav" class="navbar navbar-default navbar-custom">
+      <div class="container">
+          <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+              </button>
+              <%= link_to "Home", '/', class: "navbar-brand" %>
+              <%= link_to "RU", "/ru" %>
+              <%= link_to "EN", "/en" %>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                  <% if signed_in? %>
+                    <li class="page-scroll"><%= link_to "Admin", rails_admin_path %></li>
+                    <li class="page-scroll"><%= link_to "Manual", instructions_path %></li>
+                    <li class="page-scroll"><%= link_to "Sign out", sign_out_path, method: :delete %></li>
+                    <li class="page-scroll user-info">Signed in as <span><%= current_user.name %></span></li>
+                  <% else %>
+                    <li class="page-scroll"><%= link_to "Log in with Twitter", "/auth/twitter" %></li>
+                    <li class="page-scroll"><%= link_to "Log in with Facebook", "/auth/facebook" %></li>
+                    <li class="page-scroll"><%= link_to "Log in with Vkontakte", "/auth/vkontakte" %></li>
+                  <% end %>
+              </ul>
+          </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <%= render 'partial/submenu' %>
+          <div class="tags-cloud">
+            <% tag_cloud(Tag.counts, %w{tag1 tag2 tag3}) do |tag, css_class| %>
+              <%= link_to tag.name, tag_path(tag.name), class: css_class %>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>"><%= value %></div>
+          <% end %>
+          <%= yield %>    
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

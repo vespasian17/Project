@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+<h1>Instructions</h1>
+<%= link_to 'New Instruction', new_instruction_path %>
+<% @instructions.each do |instruction| %>
+  <section id="instructions">
+    <article class="instruction">
+      <section class="instruction-head">
+        <h2><%= link_to instruction.title, instruction_path(instruction) %></h2>
+        <small>
+          <time><%= instruction.created_at.to_date.strftime("%d %B, %Y") %></time>
+          |
+          <% if signed_in? %>
+            <%= link_to 'Edit', edit_instruction_path(instruction) %>
+            <%= link_to 'Destroy', instruction, method: :delete, data: { confirm: 'Are you sure?' } %>
+          |
+          <% end %>
+          <%= raw instruction.tags.map(&:name).map{|t| link_to t, tag_path(t)}.join(' / ') %>
+        </small>
+      </section>
+      <section class="instruction-summary">
+        <%= instruction.body.html_safe %>
+      </section>
+    </article>
+  </section>
+<% end %>
